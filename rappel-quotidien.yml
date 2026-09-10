@@ -1,0 +1,28 @@
+name: Rappel quotidien Progression
+
+on:
+  schedule:
+    # 19h00 heure de Paris = 17h00 ou 18h00 UTC selon l'heure d'ete/hiver
+    - cron: "0 18 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  envoyer-rappel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Choisir un message aleatoire et l'envoyer via ntfy
+        run: |
+          MESSAGES=(
+            "Alors, on s'y met aujourd'hui ? Tes objectifs t'attendent !"
+            "Un petit effort aujourd'hui = une grande fierte demain."
+            "Ne casse pas ta serie, vas-y !"
+            "C'est l'heure de faire le point sur tes objectifs."
+            "Ta progression n'attend que toi."
+          )
+          MSG="${MESSAGES[$RANDOM % ${#MESSAGES[@]}]}"
+          curl -s \
+            -H "Title: Progression" \
+            -H "Priority: default" \
+            -H "Tags: dart" \
+            -d "$MSG" \
+            https://ntfy.sh/progression-harry-8k3f92
