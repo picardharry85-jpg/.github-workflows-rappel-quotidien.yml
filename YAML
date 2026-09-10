@@ -1,0 +1,13 @@
+name: Rappel quotidien Progression
+
+on:
+  schedule:
+    - cron: "0 18 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  envoyer-rappel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Envoyer la notification via ntfy
+        run: curl -s -H "Title: Progression" -d "Tes objectifs t'attendent, vas-y !" https://ntfy.sh/progression-harry-8k3f92
